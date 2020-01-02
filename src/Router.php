@@ -7,7 +7,7 @@ class Router implements \ArrayAccess
     // ArrayAccess é uma Interface do PHP
     private $routes = [];
 
-    public function __construct(array $routes)
+    public function __construct(array $routes = [])
     {
         $this->routes = $routes;
     }
@@ -34,5 +34,21 @@ class Router implements \ArrayAccess
     {
         //QUANDO QUERO REMOVER DETERMINADO ITEM
         unset($this->routes[$offset]);
+    }
+
+    public function handler()
+    {
+        $path = $_SERVER['PATH_INFO'] ?? '/';
+        if (strlen($path) > 1){
+            $path = rtrim($path, '/'); // removendo sempre o último item
+        }
+
+        if ($this->offsetExists($path)){
+            return $this->offsetGet($path);
+        }
+
+        http_response_code(404);
+        echo 'Página inexistente';
+        exit;
     }
 }

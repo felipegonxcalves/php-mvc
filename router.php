@@ -7,4 +7,9 @@ $router['/'] = [
     'action' => 'index'
 ];
 
+$router['/cadastrar'] = [
+    'controller' => App\Controllers\UsersController::class,
+    'action' => 'create'
+];
+
 return $router;
